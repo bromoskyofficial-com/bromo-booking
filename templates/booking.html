@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Form Booking | Bromo Sky</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <h2>Form Booking</h2>
+
+      <div class="flash-area">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      <form method="POST" enctype="multipart/form-data">
+        <label>Nama</label>
+        <input type="text" name="nama" required>
+
+        <label>No HP</label>
+        <input type="text" name="no_hp" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Paket</label>
+        <select name="paket" id="paket" required>
+          <option value="">-- Pilih Paket --</option>
+          {% for p in paket_list %}
+            <option value="{{ p }}">{{ p }}</option>
+          {% endfor %}
+        </select>
+
+        <label>Jumlah Peserta</label>
+        <input type="number" name="jumlah" id="jumlah" value="1" min="1" required>
+
+        <label>Tanggal</label>
+        <input type="date" name="tanggal" required>
+
+        <label>Alamat</label>
+        <textarea name="alamat" rows="3" required></textarea>
+
+        <div class="invoice-box">
+          <div class="row-2">
+            <div>
+              <label>Total</label>
+              <input type="text" id="total_display" readonly>
+            </div>
+            <div>
+              <label>DP ({{ dp_percent }}%)</label>
+              <input type="text" id="dp_display" readonly>
+            </div>
+          </div>
+
+          <label>Sisa</label>
+          <input type="text" id="sisa_display" readonly>
+        </div>
+
+        <label>Upload Bukti Transfer (opsional)</label>
+        <input type="file" name="bukti" accept="image/*">
+
+        <div class="buttons">
+          <button type="submit" class="primary-btn">Kirim Booking</button>
+        </div>
+      </form>
+
+      <a class="link" href="{{ url_for('invoice_check') }}">Cek Invoice</a>
+    </div>
+  </div>
+
+  <script>
+    const PRICING = {{ pricing_js | tojson }};
+    const DP_PERCENT = {{ dp_percent }} / 100;
+
+    const paketEl = document.getElementById("paket");
+    const jumlahEl = document.getElementById("jumlah");
+    const totalEl = document.getElementById("total_display");
+    const dpEl = document.getElementById("dp_display");
+    const sisaEl = document.getElementById("sisa_display");
+
+    function rupiah(n){
+      n = Math.round(n || 0);
+      return "Rp " + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function hitung(){
+      const paket = paketEl.value;
+      const jumlah = parseInt(jumlahEl.value || "1", 10);
+
+      if(!paket || !PRICING[paket]){
+        totalEl.value = "";
+        dpEl.value = "";
+        sisaEl.value = "";
+        return;
+      }
+
+      const info = PRICING[paket];
+      let total = 0;
+
+      if(info.type === "per_orang"){
+        total = (info.price || 0) * Math.max(jumlah, 1);
+      } else {
+        total = (info.price || 0);
+      }
+
+      const dp = Math.round(total * DP_PERCENT);
+      const sisa = Math.max(total - dp, 0);
+
+      totalEl.value = rupiah(total);
+      dpEl.value = rupiah(dp);
+      sisaEl.value = rupiah(sisa);
+    }
+
+    paketEl.addEventListener("change", hitung);
+    jumlahEl.addEventListener("input", hitung);
+    hitung();
+  </script>
+</body>
+</html>

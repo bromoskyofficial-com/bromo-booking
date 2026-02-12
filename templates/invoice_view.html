@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Invoice | Bromo Sky Aventra</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-section">
+  <div class="form-container">
+
+    {% if found %}
+      <h2>Detail Invoice</h2>
+
+      <div class="invoice-box">
+        <p><b>Invoice ID:</b> {{ data.invoice_id }}</p>
+        <p><b>Dibuat:</b> {{ data.created_at }}</p>
+        <p><b>Nama:</b> {{ data.nama }}</p>
+        <p><b>No HP:</b> {{ data.no_hp }}</p>
+        <p><b>Email:</b> {{ data.email }}</p>
+        <p><b>Paket:</b> {{ data.paket }}</p>
+        <p><b>Jumlah:</b> {{ data.jumlah }}</p>
+        <p><b>Tanggal:</b> {{ data.tanggal }}</p>
+        <p><b>Alamat:</b> {{ data.alamat }}</p>
+        <p><b>Total:</b> {{ total_rp }}</p>
+        <p><b>Status:</b> {{ data.status }}</p>
+      </div>
+
+      <div class="buttons">
+        <a href="/invoice_check"><button class="secondary-btn">Cek Invoice Lain</button></a>
+        <a href="/"><button class="secondary-btn">Kembali Beranda</button></a>
+      </div>
+
+    {% else %}
+      <h2>Invoice Tidak Ditemukan</h2>
+      <p><b>{{ invoice_id }}</b></p>
+      <p>{{ error }}</p>
+
+      <div class="buttons">
+        <a href="/invoice_check"><button class="secondary-btn">Coba Lagi</button></a>
+        <a href="/"><button class="secondary-btn">Kembali Beranda</button></a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+</body>
+</html>

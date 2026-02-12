@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard | Bromo Sky</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <div class="card wide">
+      <div class="topbar">
+        <h2>Admin Dashboard</h2>
+        <a class="secondary-btn small" href="{{ url_for('admin_logout') }}">Logout</a>
+      </div>
+
+      <div class="flash-area">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      {% if error %}
+        <div class="flash error">{{ error }}</div>
+      {% endif %}
+
+      <div class="muted">Total data: {{ rows|length }}</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Nama</th>
+              <th>Paket</th>
+              <th>Tanggal</th>
+              <th>Total</th>
+              <th>DP</th>
+              <th>Sisa</th>
+              <th>Bukti</th>
+              <th>Status</th>
+              <th>Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+            <tr>
+              <td class="mono"><b>{{ row.invoice_id }}</b></td>
+              <td>{{ row.nama }}</td>
+              <td>{{ row.paket }}</td>
+              <td>{{ row.tanggal_rp }}</td>
+              <td>{{ "Rp {:,}".format(row.total|int).replace(",", ".") }}</td>
+              <td>{{ "Rp {:,}".format(row.dp|int).replace(",", ".") }}</td>
+              <td>{{ "Rp {:,}".format(row.sisa|int).replace(",", ".") }}</td>
+              <td>
+                {% if row.bukti_url %}
+                  <a class="link" href="{{ row.bukti_url }}" target="_blank">Lihat</a>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if row.status == "MENUNGGU" %}
+                  <span class="badge badge-menunggu">MENUNGGU</span>
+                {% elif row.status == "SUDAH BAYAR" %}
+                  <span class="badge badge-bayar">SUDAH BAYAR</span>
+                {% elif row.status == "DIKONFIRMASI" %}
+                  <span class="badge badge-konfirmasi">DIKONFIRMASI</span>
+                {% elif row.status == "DIBATALKAN" %}
+                  <span class="badge badge-batal">DIBATALKAN</span>
+                {% else %}
+                  <span class="badge">{{ row.status }}</span>
+                {% endif %}
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('admin_update_status') }}" class="update-form">
+                  <input type="hidden" name="invoice_id" value="{{ row.invoice_id }}">
+                  <select name="status">
+                    {% for s in status_options %}
+                      <option value="{{ s }}" {% if s == row.status %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="primary-btn small">Simpan</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <a class="link" href="{{ url_for('index') }}">← Kembali ke Beranda</a>
+    </div>
+  </div>
+</body>
+</html>

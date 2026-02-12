@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Hasil Booking | Bromo Sky Aventra</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-section">
+  <div class="form-container">
+
+    {% if success %}
+      <h2>Booking Berhasil ✅</h2>
+
+      <div class="invoice-box">
+        <p><b>Invoice ID:</b> {{ data.invoice_id }}</p>
+        <p><b>Nama:</b> {{ data.nama }}</p>
+        <p><b>Paket:</b> {{ data.paket }}</p>
+        <p><b>Jumlah:</b> {{ data.jumlah }}</p>
+        <p><b>Tanggal:</b> {{ data.tanggal }}</p>
+        <p><b>Total:</b> {{ total_rp }}</p>
+        <p><b>Status:</b> {{ data.status }}</p>
+      </div>
+
+      <div class="buttons">
+        <a href="/invoice_check"><button class="secondary-btn">Cek Invoice</button></a>
+        <a href="/"><button class="secondary-btn">Kembali Beranda</button></a>
+      </div>
+
+      <p style="margin-top:14px; font-size: 13px;">
+        Invoice juga dikirim ke email (jika SMTP sudah disetting).
+      </p>
+
+    {% else %}
+      <h2>Booking Gagal ❌</h2>
+      <p>{{ error }}</p>
+      <div class="buttons">
+        <a href="/booking"><button class="secondary-btn">Coba Lagi</button></a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Arial;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);min-height:100vh}
+.page{display:flex;justify-content:center;align-items:flex-start;padding:40px 16px}
+.card{width:520px;background:#fff;border-radius:18px;padding:24px;box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.card.wide{width:min(1100px,95vw)}
+h2{margin:0 0 16px 0;text-align:center}
+label{display:block;margin:10px 0 6px;font-weight:600;color:#222}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;font-size:15px;outline:none}
+textarea{resize:vertical}
+.primary-btn{width:100%;padding:12px;border:0;border-radius:14px;background:#2f80ed;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+.primary-btn:hover{filter:brightness(.95)}
+.primary-btn.small{width:auto;padding:10px 14px;border-radius:12px;font-size:14px}
+.secondary-btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid #ddd;background:#fff;color:#222;text-decoration:none}
+.secondary-btn.small{padding:8px 12px;border-radius:10px;font-size:13px}
+.link{display:inline-block;margin-top:14px;color:#2f80ed;text-decoration:none}
+.link:hover{text-decoration:underline}
+
+.flash-area{margin-bottom:14px}
+.flash{padding:10px 12px;border-radius:10px;font-size:14px;margin-bottom:8px}
+.flash.error{background:#ffe3e3;color:#9b1c1c;border:1px solid #ffb1b1}
+.flash.success{background:#e3ffef;color:#0f6b3e;border:1px solid #a8f0c8}
+
+.invoice-box{margin-top:16px;padding:14px;border:1px solid #e6e6e6;border-radius:12px;background:#fafafa}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.muted{margin:10px 0;color:#666;font-size:14px}
+
+.table-wrap{overflow:auto;border:1px solid #eee;border-radius:14px;margin-top:12px}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:12px;border-bottom:1px solid #eee;vertical-align:top;text-align:left}
+th{background:#fafafa;font-size:14px}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.update-form{display:flex;gap:10px;align-items:center}
+.update-form select{min-width:180px}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+
+/* BADGE STATUS */
+.badge{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block}
+.badge-menunggu{background:#ffe8a3;color:#8a6d00}
+.badge-bayar{background:#cfe2ff;color:#084298}
+.badge-konfirmasi{background:#d1e7dd;color:#0f5132}
+.badge-batal{background:#f8d7da;color:#842029}

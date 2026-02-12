@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login | Bromo Sky Aventra</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-section">
+  <div class="form-container">
+    <h2>Admin Login</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-area">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/admin" method="POST">
+      <label>Password Admin</label>
+      <input type="password" name="password" required>
+      <button type="submit" class="primary-btn">Masuk</button>
+    </form>
+
+    <a href="/" class="back-link">← Kembali</a>
+  </div>
+</div>
+
+</body>
+</html>
